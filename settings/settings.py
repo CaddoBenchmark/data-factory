@@ -11,3 +11,4 @@ class Settings:
     folding_method = ''
     seeds_path = ''
     seeds = []
+    output_separator = ''
