@@ -1,11 +1,11 @@
 import pandas as pd
+from caddo_file_parser.settings.generation_settings import GenerationSettings
 
 from functions.functions_loader import FunctionsLoader
-from settings.settings_loader import SettingsLoader
-from settings.settings import Settings
 from functions.folds_preparation import FoldsPreparation
 from caddo_file_parser.caddo_file_parser import CaddoFileParser
 from caddo_file_parser.models.caddo_file import CaddoFile
+from settings.settings_reader import SettingsReader
 
 
 def open_dataset_file(path, sep):
@@ -16,7 +16,8 @@ def open_dataset_file(path, sep):
 class DataFactory:
     def __init__(self):
         print("INIT")
-        SettingsLoader('./settings.yaml').load()
+        self.dataSettings: GenerationSettings = SettingsReader('./settings.yaml').load()
+        print(self.dataSettings)
         self.folds_preparation = FoldsPreparation()
         self.extraction_module = None
         self.load_modules()
@@ -25,30 +26,23 @@ class DataFactory:
     def load_modules(self):
         print("LOADING DATA EXTRACTION FUNCTION:")
         functions_loader = FunctionsLoader()
-        self.extraction_module = functions_loader.extract_features_keywords()
+        self.extraction_module = functions_loader.extract_features_keywords(self.dataSettings)
         print()
 
     def run(self):
         print("READ DATA FROM FILE")
-        dataset_df = open_dataset_file(Settings.data_source_path, Settings.data_source_separator)
+        dataset_df = open_dataset_file(self.dataSettings.data_input_path, self.dataSettings.data_input_separator)
 
         print("EXTRACT DATA")
         pre_processed_data = self.extraction_module.extract(dataset_df)
 
-        X = dataset_df[Settings.data_source_x_cols]
-        y = dataset_df[Settings.data_source_y_cols]
-        pre_processed_data['Y'] = dataset_df[Settings.data_source_y_cols]
-
         print("PREPARE FOLDS")
-        folds = self.folds_preparation.get_folds_dataset(X, y)
+        folds = self.folds_preparation.get_folds_dataset(dataset_df, self.dataSettings)
 
         print("SAVE TO .CADDO FILE")
-        caddoFile = CaddoFile(folds, pre_processed_data)
+        caddoFile = CaddoFile(folds, pre_processed_data, self.dataSettings)
         caddoFileParser = CaddoFileParser()
-        caddoFileParser.create_file(caddoFile, "results_from_parser")
-
-        caddoFileParser.read_data("results_from_parser")
-
+        caddoFileParser.create_file(caddoFile)
 
 if __name__ == '__main__':
     DataFactory()
