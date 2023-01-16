@@ -1,28 +1,18 @@
-data_source:
-  path: dataset.csv
-  separator: $
-  x_columns_names:
-    - contents
-  y_columns_names:
-    - class_value
-
-extraction_data:
-  file_name_without_extension: extraction
-
-model:
-  percent_of_training_data: 80
-  number_of_folds: 10
-  runs: 10
-
-output:
-  file_name: results
-  separator: $
-
-folding:
-  #choose one of following: kfold, skfold
-  method: KFOLD
-  #choose if you want to get seeds from file (the fill the path field) or you want to write them directly (then fill the write_directly field)
-  #enter the 'null' to the method that you rejected
-  seeds:
-    path: "some_path"
-    write_directly: [2324, 343, 1232, 4343, 434343, 4343, 135, 343, 16, 999343]
+data:
+  input:
+    path: dataset.csv
+    separator: '$'
+  extraction:
+    function:
+      path: extraction
+  output:
+    file:
+      name: results
+      separator: ','
+  splitting:
+    runs: 2
+    folding:
+      method: KFOLD
+      number: 2
+      seeds:
+        from_list: [1,2,3,4,5, 6, 7, 8, 9, 10]
