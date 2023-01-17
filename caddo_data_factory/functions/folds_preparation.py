@@ -1,5 +1,5 @@
-from functions.folding_enum import FoldingEnum
-from functions.folding_methods import FoldingMethods
+from caddo_data_factory.functions.folding_enum import FoldingEnum
+from caddo_data_factory.functions.folding_methods import FoldingMethods
 from caddo_file_parser.models.run import Run
 from caddo_file_parser.models.index_set import IndexSet
 from caddo_file_parser.settings.generation_settings import GenerationSettings
