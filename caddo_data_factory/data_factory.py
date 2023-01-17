@@ -1,11 +1,13 @@
+import os
+
 import pandas as pd
 from caddo_file_parser.settings.generation_settings import GenerationSettings
 
-from functions.functions_loader import FunctionsLoader
-from functions.folds_preparation import FoldsPreparation
+from caddo_data_factory.functions.functions_loader import FunctionsLoader
+from caddo_data_factory.functions.folds_preparation import FoldsPreparation
 from caddo_file_parser.caddo_file_parser import CaddoFileParser
 from caddo_file_parser.models.caddo_file import CaddoFile
-from settings.settings_reader import SettingsReader
+from caddo_data_factory.settings.settings_reader import SettingsReader
 
 
 def open_dataset_file(path, sep):
@@ -16,7 +18,7 @@ def open_dataset_file(path, sep):
 class DataFactory:
     def __init__(self):
         print("INIT")
-        self.dataSettings: GenerationSettings = SettingsReader('./settings.yaml').load()
+        self.dataSettings: GenerationSettings = SettingsReader(f'{os.getcwd()}/settings.yaml').load()
         print(self.dataSettings)
         self.folds_preparation = FoldsPreparation()
         self.extraction_module = None
