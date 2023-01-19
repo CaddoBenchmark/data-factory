@@ -17,21 +17,21 @@ class FoldsPreparation:
     def __init__(self, settings_path=''):
         self.settings_path = settings_path
 
-    def get_folds_dataset(self, dataset, settings: GenerationSettings):
+    def get_folds_dataset(self, dataset, settings: GenerationSettings, seeds: []):
         runs = []
         folding_method = get_folding_method(settings)
         for run in range(settings.data_splitting_runs):
             index_sets = []
             i = 0
             fold = folding_method(self, settings.data_splitting_folding_number,
-                                  settings.data_splitting_folding_seeds_from_list, run)
+                                  seeds, run)
             for train_index, val_index in fold.split(dataset):
                 index_set: IndexSet = IndexSet(number=i,
                                                train_indexes=train_index.tolist(),
                                                test_indexes=val_index.tolist(),
-                                               seed=settings.data_splitting_folding_seeds_from_list[run])
+                                               seed=seeds[run])
                 i += 1
                 index_sets.append(index_set)
-            single_run = Run(number=run, index_sets=index_sets, seed=settings.data_splitting_folding_seeds_from_list[run])
+            single_run = Run(number=run, index_sets=index_sets, seed=seeds[run])
             runs.append(single_run)
         return runs

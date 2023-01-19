@@ -34,17 +34,17 @@ class DataFactory:
     def run(self):
         print("READ DATA FROM FILE")
         dataset_df = open_dataset_file(self.dataSettings.data_input_path, self.dataSettings.data_input_separator)
+        seeds = CaddoFileParser().read_seeds(self.dataSettings)
 
         print("EXTRACT DATA")
         pre_processed_data = self.extraction_module.extract(dataset_df)
 
         print("PREPARE FOLDS")
-        folds = self.folds_preparation.get_folds_dataset(dataset_df, self.dataSettings)
+        folds = self.folds_preparation.get_folds_dataset(dataset_df, self.dataSettings, seeds)
 
         print("SAVE TO .CADDO FILE")
-        caddoFile = CaddoFile(folds, pre_processed_data, self.dataSettings)
-        caddoFileParser = CaddoFileParser()
-        caddoFileParser.create_file(caddoFile)
+        caddoFile = CaddoFile(folds, pre_processed_data, self.dataSettings, seeds)
+        CaddoFileParser().create_file(caddoFile)
 
 if __name__ == '__main__':
     DataFactory()
