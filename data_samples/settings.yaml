@@ -1,13 +1,13 @@
 data:
   input:
-    path: dataset.csv
+    path: ../data_samples/dataset.csv
     separator: '$'
   extraction:
     function:
       path: extraction
   output:
     file:
-      name: results
+      name: results_old
       separator: ','
   splitting:
     runs: 2
@@ -16,4 +16,4 @@ data:
       number: 2
       seeds:
         from_list:
-        from_file: seeds.yaml
+        from_file: ../data_samples/seeds.yaml
