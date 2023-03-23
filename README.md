@@ -4,7 +4,14 @@ This repository contains source code of program used to generate `.caddo` files.
 
 ## 🔌 How to run
 
-TODO
+```
+user@computer:~$ pip install caddo-data-factory
+```
+
+#### Implement all functions and run from command line
+```
+user@computer:~$ caddo-data-factory
+```
 
 ## 📕 Any documentation?
 
