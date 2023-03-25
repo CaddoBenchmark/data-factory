@@ -1,4 +1,6 @@
 data:
+  settings_file:
+    path: ../data_samples/settings.yaml
   input:
     path: ../data_samples/dataset.csv
     separator: '$'
@@ -7,7 +9,7 @@ data:
       path: extraction
   output:
     file:
-      name: results_old
+      name: results
       separator: ','
   splitting:
     runs: 2
