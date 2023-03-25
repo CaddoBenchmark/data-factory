@@ -1,4 +1,5 @@
 import os
+import sys
 
 import pandas as pd
 from caddo_file_parser.settings.generation_settings import GenerationSettings
@@ -18,7 +19,10 @@ def open_dataset_file(path, sep):
 class DataFactory:
     def __init__(self):
         print("INIT")
-        self.dataSettings: GenerationSettings = SettingsReader(f'{os.getcwd()}/settings.yaml').load()
+        settings_file_path = f'{os.getcwd()}/settings.yaml'
+        if sys.argv[1] == "--configuration":
+            settings_file_path = sys.argv[2]
+        self.dataSettings: GenerationSettings = SettingsReader(settings_file_path).load()
         print(self.dataSettings)
         self.folds_preparation = FoldsPreparation()
         self.extraction_module = None
@@ -34,17 +38,17 @@ class DataFactory:
     def run(self):
         print("READ DATA FROM FILE")
         dataset_df = open_dataset_file(self.dataSettings.data_input_path, self.dataSettings.data_input_separator)
+        seeds = CaddoFileParser().read_seeds(self.dataSettings)
 
         print("EXTRACT DATA")
         pre_processed_data = self.extraction_module.extract(dataset_df)
 
         print("PREPARE FOLDS")
-        folds = self.folds_preparation.get_folds_dataset(dataset_df, self.dataSettings)
+        folds = self.folds_preparation.get_folds_dataset(dataset_df, self.dataSettings, seeds)
 
         print("SAVE TO .CADDO FILE")
-        caddoFile = CaddoFile(folds, pre_processed_data, self.dataSettings)
-        caddoFileParser = CaddoFileParser()
-        caddoFileParser.create_file(caddoFile)
+        caddoFile = CaddoFile(folds, pre_processed_data, self.dataSettings, seeds)
+        CaddoFileParser().create_file(caddoFile)
 
 if __name__ == '__main__':
     DataFactory()
