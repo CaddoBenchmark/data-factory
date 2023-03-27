@@ -12,7 +12,11 @@ from caddo_data_factory.settings.settings_reader import SettingsReader
 
 
 def open_dataset_file(path, sep):
-    dataset = pd.read_csv(path, sep=sep)
+    chunksize = 10 ** 6
+    chunks =  pd.read_csv(path, sep=sep, chunksize=chunksize)
+    dataset = pd.DataFrame()
+    dataset = pd.concat(chunk for chunk in chunks)
+    # dataset = pd.read_csv(path, sep=sep)
     return dataset
 
 
