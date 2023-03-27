@@ -2,7 +2,7 @@ data:
   settings_file:
     path: ../data_samples/settings.yaml
   input:
-    path: ../data_samples/dataset.csv
+    path: ../../dataset_new.csv
     separator: '$'
   extraction:
     function:
