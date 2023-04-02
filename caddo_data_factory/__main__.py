@@ -1,4 +1,5 @@
 import os
+import sys
 
 import pandas as pd
 from caddo_file_parser.settings.generation_settings import GenerationSettings
@@ -11,14 +12,21 @@ from caddo_data_factory.settings.settings_reader import SettingsReader
 
 
 def open_dataset_file(path, sep):
-    dataset = pd.read_csv(path, sep=sep)
+    chunksize = 10 ** 6
+    chunks =  pd.read_csv(path, sep=sep, chunksize=chunksize)
+    dataset = pd.DataFrame()
+    dataset = pd.concat(chunk for chunk in chunks)
+    # dataset = pd.read_csv(path, sep=sep)
     return dataset
 
 
 class DataFactory:
     def __init__(self):
         print("INIT")
-        self.dataSettings: GenerationSettings = SettingsReader(f'{os.getcwd()}/settings.yaml').load()
+        settings_file_path = f'{os.getcwd()}/settings.yaml'
+        if sys.argv[1] == "--configuration":
+            settings_file_path = sys.argv[2]
+        self.dataSettings: GenerationSettings = SettingsReader(settings_file_path).load()
         print(self.dataSettings)
         self.folds_preparation = FoldsPreparation()
         self.extraction_module = None

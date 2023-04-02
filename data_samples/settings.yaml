@@ -1,6 +1,8 @@
 data:
+  settings_file:
+    path: ../data_samples/settings.yaml
   input:
-    path: dataset.csv
+    path: ../../dataset_new.csv
     separator: '$'
   extraction:
     function:
@@ -16,4 +18,4 @@ data:
       number: 2
       seeds:
         from_list:
-        from_file: seeds.yaml
+        from_file: ../data_samples/seeds.yaml
