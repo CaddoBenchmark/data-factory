@@ -1,4 +1,4 @@
-caddo-file-parser==0.30.1
+caddo-file-parser==0.37.1
 joblib==1.2.0
 numpy==1.23.5
 pandas==1.5.2
