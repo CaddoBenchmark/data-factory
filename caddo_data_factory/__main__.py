@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 
 import pandas as pd
 from caddo_file_parser.settings.generation_settings import GenerationSettings
@@ -24,8 +25,9 @@ class DataFactory:
     def __init__(self):
         print("INIT")
         settings_file_path = f'{os.getcwd()}/settings.yaml'
-        if sys.argv[1] == "--configuration":
-            settings_file_path = sys.argv[2]
+        if len(sys.argv) > 2:
+            if sys.argv[1] == "--configuration":
+                settings_file_path = sys.argv[2]
         self.dataSettings: GenerationSettings = SettingsReader(settings_file_path).load()
         print(self.dataSettings)
         self.folds_preparation = FoldsPreparation()
@@ -55,4 +57,6 @@ class DataFactory:
         CaddoFileParser().create_file(caddoFile)
 
 if __name__ == '__main__':
+    start_time = time.time()
     DataFactory()
+    print("complete time: %s seconds" % (time.time() - start_time))
