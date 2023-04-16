@@ -8,9 +8,14 @@ This repository contains source code of program used to generate `.caddo` files.
 user@computer:~$ pip install caddo-data-factory
 ```
 
-#### Implement all functions and run from command line
+#### Implement all functions and run from command line with settings file located in working directory
 ```
-user@computer:~$ caddo-data-factory
+user@computer:~$python -m caddo_data_factory
+```
+
+#### Run from command line with custom path to settings file
+```
+user@computer:~$python -m caddo_data_factory --configuration {{relative_path_to_settings.yaml}}
 ```
 
 ## 📕 Any documentation?
