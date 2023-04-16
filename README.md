@@ -8,7 +8,10 @@ This repository contains source code of program used to generate `.caddo` files.
 user@computer:~$ pip install caddo-data-factory
 ```
 
-#### Implement all functions and run from command line with settings file located in working directory
+1) Implement sextraction function - you can find an example function here: link
+2) Create settings.yaml file. All options that needs to be there are present in example settings file (link)
+
+#### Implement extraction function, crete settings.yaml file and run from command line with settings file located in working directory
 ```
 user@computer:~$python -m caddo_data_factory
 ```
